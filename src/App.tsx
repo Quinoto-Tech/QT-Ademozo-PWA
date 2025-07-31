@@ -11,6 +11,7 @@ import { ConfirmationPage } from './pages/ConfirmationPage';
 import { OrderConfirmationPage } from './pages/OrderConfirmationPage';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { JWTTokenPage } from './pages/JWTTokenPage';
+import { RedirectionPage } from './pages/RedirectionPage';
 
 function App() {
   const { isDark } = useThemeStore();
@@ -107,6 +108,9 @@ function App() {
               </ProtectedRoute>
             } 
           />
+
+          {/* Adecash Mock Routes */}
+          <Route path="/adecash" element={<RedirectionPage />} />
           
           {/* Redirect root to loading with a sample table ID */}
           <Route path="/" element={<Navigate to="/loading" replace />} />

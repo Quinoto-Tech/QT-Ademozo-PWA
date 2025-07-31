@@ -167,3 +167,47 @@
     @apply border-b border-white/20 dark:border-white/10;
   }
 }
+
+:root {
+    --white: #ffffff;
+    --primary-50: #e9faff;
+    --primary-100: #00ADE6;
+    --primary-600: #2E9FE5;
+    --primary-700: #0F3E56;
+    --secondary-500: #1AB71A;
+}
+
+/* Begin Scrollbar */
+.scrollbar-hide {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+}
+
+.scrollbar-beautify {
+    &::-webkit-scrollbar {
+        width: 0.5rem;
+    }
+
+    &::-webkit-scrollbar-track {
+        background-color: var(--primary-50);
+    }
+    
+    &::-webkit-scrollbar-thumb {
+        background-color: var(--primary-700);
+        cursor: grab;
+    }
+    
+    &::-webkit-scrollbar-thumb:hover {
+        background-color: var(--primary-700);
+        cursor: grab;
+    }
+    
+    &::-webkit-scrollbar-thumb:active {
+        background-color: var(--primary-700);
+        cursor: grabbing;
+    }
+}
+/* End Scrollbar */
