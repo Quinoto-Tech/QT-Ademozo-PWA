@@ -43,29 +43,28 @@ export function DashboardPage() {
     loadData();
   }, [isAuthenticated, navigate, location.state]);
 
-  const loadData = async () => {
-    if (!user) return;
+const loadData = async () => {
+  if (!user) return;
 
-    try {
-      setLoading(true);
-      setError(null);
-      
-      // Load unpaid orders and offers
-      const [unpaidOrdersData, offersData] = await Promise.all([
-        apiClient.getUnpaidOrders(user.curp),
-        apiClient.getOffers()
-      ]);
-      
-      setUnpaidOrders(unpaidOrdersData);
-      setOffers(offersData);
-      
-    } catch (error) {
-      console.error('Error loading data:', error);
-      setError('Error al cargar los datos de la mesa');
-    } finally {
-      setLoading(false);
-    }
-  };
+  try {
+    setLoading(true);
+    setError(null);
+    
+    // Cambiar de mesa a cliente
+    const [unpaidOrdersData, offersData] = await Promise.all([
+      apiClient.getClientUnpaidOrders(), // Nuevo endpoint
+      apiClient.getOffers()
+    ]);
+    
+    setUnpaidOrders(unpaidOrdersData);
+    setOffers(offersData);
+    
+  } catch (error) {
+    setError('Error al cargar los datos del cliente');
+  } finally {
+    setLoading(false);
+  }
+};
 
   const handleCallWaiter = async () => {
     setShowWaiterModal(true);

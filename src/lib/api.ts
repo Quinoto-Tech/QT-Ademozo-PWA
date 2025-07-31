@@ -1,3 +1,5 @@
+import { OrderProduct, OrderResponse, UnpaidOrdersResponse } from "../types";
+
 const API_BASE = import.meta.env.VITE_API_BASE_URL || 'https://d0638a438f78.ngrok-free.app';
 const CERBERO_URL = import.meta.env.VITE_CERBERO_URL;
 
@@ -15,16 +17,19 @@ export class ApiClient {
     console.log('With token:', this.token ? 'Present' : 'Missing');
     console.log('Request options:', options);
     
-    const headers: HeadersInit = {
-      'Content-Type': 'application/json',
-      'ngrok-skip-browser-warning': 'true',
-      ...options.headers,
-    };
+const headers = new Headers({
+  'Content-Type': 'application/json',
+  'ngrok-skip-browser-warning': 'true'
+});
 
-    if (this.token) {
-      headers['Authorization'] = `Bearer ${this.token}`;
-      console.log('Authorization header set');
-    }
+if (this.token) {
+  headers.set('Authorization', `Bearer ${this.token}`);
+}
+
+  // if (this.token) {
+  //   headers.set('Authorization', `Bearer ${this.token}`);
+  //   console.log('Authorization header set');
+  // }
 
     try {
       const response = await fetch(url, {
@@ -134,10 +139,10 @@ export class ApiClient {
     });
   }
 
-  async getUnpaidOrders(tableId: string) {
-    return this.request(`/tables/${tableId}/unpaid-orders/`);
+  async getClientUnpaidOrders(): Promise<UnpaidOrdersResponse> {
+    return this.request('/clients/unpaid-orders/');
   }
-
+  
   // Menu Categories
   async getMenuCategories() {
     return this.request('/menu-categories/');
@@ -157,7 +162,15 @@ export class ApiClient {
   async getOrders() {
     return this.request('/orders/');
   }
-
+  async createClientOrder(orderProducts: OrderProduct[]): Promise<OrderResponse> {
+    return this.request('/api/orders/', {
+      method: 'POST',
+      body: JSON.stringify({
+        client_identifier: "AUTOMATIC_FROM_JWT",
+        order_products: orderProducts
+      })
+    });
+  }
   async createOrder(order: any): Promise<{order_number: string, order_take_away_code?: string}> {
     return this.request<{order_number: string, order_take_away_code?: string}>('/orders/', {
       method: 'POST',

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Acceso a RapiMoso</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+
+  <div class="bg-white p-6 rounded-2xl shadow-lg w-full max-w-md">
+    <h1 class="text-2xl font-bold mb-4 text-center">Acceso a RapiMoso</h1>
+
+    <label for="jwtInput" class="block text-gray-700 mb-2 font-semibold">JWT Token:</label>
+    <textarea
+      id="jwtInput"
+      class="w-full p-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none mb-4"
+      rows="4"
+      placeholder="Pega tu JWT aquí..."></textarea>
+
+    <button
+      onclick="accederARapiMoso()"
+      class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-xl transition duration-300"
+    >
+      Acceder a RapiMoso
+    </button>
+  </div>
+
+  <script>
+    function accederARapiMoso() {
+      const jwt = document.getElementById('jwtInput').value.trim();
+
+      if (!jwt) {
+        alert('Por favor, ingresá un JWT válido.');
+        return;
+      }
+
+      // Guardamos el token como Bearer en localStorage
+      localStorage.setItem('Authorization', `Bearer ${jwt}`);
+
+      // Redirigimos a tu app React en localhost
+      window.location.href = 'http://localhost:5173';
+    }
+  </script>
+
+</body>
+</html>
